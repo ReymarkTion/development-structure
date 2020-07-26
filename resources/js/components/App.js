@@ -5,6 +5,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './_reducers';
+import MainNav from './_components/MainNav/MainNav';
+
 
 const initialState = {};
 const middleware = [thunk];
@@ -22,23 +24,30 @@ class App extends React.Component {
 
     render() {
         return (
-            <div class="container mx-auto">
-                <div className="mt-2">
-                    <div class="p-4 border-dashed border-4 border-gray-600 m-3">
-                        <div class="text-center">
-                            <p class="font-mono text-gray-800 text-center text-3xl">
-                                Witech Innovations
-                            </p>
-                        </div>
+            <>
+                {/**
+                
+                    Transfer router here
+                
+                
+                 */}
+                {/* <div className="flex flex-col">
+                    <div>
+                        
                     </div>
-                </div>
-            </div>
+                    <div className="mt-20"> */}
+                        {/* <MaterialDrawer /> */}
+                        <MainNav />
+                    {/* </div>
+                </div> */}
+                
+            </>
         );
     }
 }
 
 export default App;
 
-if (document.getElementById('root')) {
-    ReactDOM.render(<App />, document.getElementById('root'));
-}
+// if (document.getElementById('root')) {
+ReactDOM.render(<App />, document.getElementById('root'));
+// }

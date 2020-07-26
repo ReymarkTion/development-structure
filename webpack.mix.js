@@ -19,7 +19,6 @@ let tailwindcss = require('tailwindcss');
 //         postCss: [tailwindcss('./tailwind.js')],
 //     });
 
-
 mix.browserSync('development-structure.test');
 
 mix.react('resources/js/app.js', 'public/js')
@@ -27,4 +26,5 @@ mix.react('resources/js/app.js', 'public/js')
     .options({
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.config.js')],
-    });
+    })
+    .sourceMaps();
