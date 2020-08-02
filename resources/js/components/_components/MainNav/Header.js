@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Header = () => {
+const Header = ({ logout }) => {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -55,7 +55,7 @@ const Header = () => {
                             <div className="bg-white rounded-lg shadow-lg py-2 w-32">
                                 <div className="flex flex-col">
                                     <button type="button" className="px-4 py-2 hover:bg-gray-700 hover:text-white">Account</button>
-                                    <button type="button" className="px-4 py-2 hover:bg-gray-700 hover:text-white">Sign Out</button>
+                                    <button type="button" className="px-4 py-2 hover:bg-gray-700 hover:text-white" onClick={logout}>Sign Out</button>
                                 </div>
                             </div>
                         </Box>
@@ -64,7 +64,7 @@ const Header = () => {
                 </div>
             </header>
 
-            <header x-data="{ isOpen: false }" className="w-full bg-sidebar py-5 px-6 sm:hidden">
+            {/*<header x-data="{ isOpen: false }" className="w-full bg-sidebar py-5 px-6 sm:hidden">
                 <div className="flex items-center justify-between">
                     <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
                     <button className="text-white text-3xl focus:outline-none">
@@ -114,7 +114,8 @@ const Header = () => {
                         <i className="fas fa-arrow-circle-up mr-3"></i> Upgrade to Pro!
                         </button>
                 </nav>
-            </header>
+            </header>*/}
+                        
         </>
     );
 };

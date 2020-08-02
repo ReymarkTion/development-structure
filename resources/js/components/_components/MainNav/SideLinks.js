@@ -9,33 +9,45 @@ import { history } from '../../_helpers';
 
 
 const MenuList = ({ children }) => (
-    <div className="flex flex-col">
+    // <div className="flex flex-col">
+    <ul class="list-reset">
         { children }
-    </div>
+    </ul>
+    // </div>
 );
 
 const MenuListItem = ({ link, selected, onSelect }) => (
-    <div className={`flex flex-row border-l-2 ${selected 
-            ? `border-white bg-black`
-            : `border-gray-800 hover:bg-gray-700 hover:border-gray-700`}`}
-            onClick={onSelect}>
-        <div className="self-center p-3 h-auto w-auto">
-            <span className="text-base">{link.icon}</span>
-        </div>
-        <div className="flex-auto py-3">
-            <span className="text-base">{link.name}</span>
-        </div>
-        <div className="self-center p-2">
-            {
-                link.children &&
-                    <ExpandMore />
-            }
-        </div>
-    </div>
+
+    <li class="py-2 hover:bg-indigo-400 hover:text-red-100 text-gray-600">
+        <a type="button" onClick={onSelect} className="flex bg-dark-gray py-1 md:py-3 pl-3 align-middle">
+            <span className="mr-3">{link.icon}</span>
+            <span className="flex-auto mt-auto text-sm w-40">{link.name}</span>
+            <span className="mr-2">{ link.children && <ExpandMore /> }</span>
+        </a>
+    </li>
+
+
+    
+    // <div className={`flex flex-row border-l-2 ${selected 
+    //         ? `border-white bg-black`
+    //         : `border-gray-800 hover:bg-gray-700 hover:border-gray-700`}`}
+    //         onClick={onSelect}>
+    //     <div className="self-center p-3 h-auto w-auto">
+    //         <span className="text-base">{link.icon}</span>
+    //     </div>
+    //     <div className="flex-auto py-3 text-gray-900">
+    //         <span className="text-base">{link.name}</span>
+    //     </div>
+    //     <div className="self-center p-2 text-gray-900">
+    //         {
+    //             link.children &&
+    //                 <ExpandMore />
+    //         }
+    //     </div>
+    // </div>
 );
 
 const SideLinks = ({ links }) => {
-
 
     const [route, setRoute] = useState(null);
     const [menuLinks, setMenuLinks] = useState(links);
@@ -60,13 +72,16 @@ const SideLinks = ({ links }) => {
 
     return (
         <>
-            <aside className="relative bg-gray-800 h-screen hidden sm:block shadow-xl" style={{ width: '400px' }}>
+            <aside className="relative bg-white h-screen hidden sm:block shadow-xl">
+                
                 <div className="p-6">
-                    <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                    <a href="index.html" className="text-gray-600 text-3xl font-semibold uppercase hover:text-gray-600">Admin</a>
+                    {/* <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                         <i className="fas fa-plus mr-3"></i> New Report
-                            </button>
+                    </button> */}
                 </div>
+
+                <hr/>
 
                 <nav className="text-white text-base font-semibold pt-3">
 
