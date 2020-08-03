@@ -10,47 +10,56 @@ import { history } from '../../_helpers';
 
 const MenuList = ({ children }) => (
     // <div className="flex flex-col">
-    <ul class="list-reset">
+    <ul className="list-reset">
         { children }
     </ul>
     // </div>
 );
 
-const MenuListItem = ({ link, selected, onSelect }) => (
+const MenuListItem = ({ 
+    link, 
+    selected, 
+    onSelect,
+    childOpenLink,
+    selectOpenChild
+}) => (
 
-    <li class="py-2 hover:bg-indigo-400 hover:text-red-100 text-gray-600">
-        <a type="button" onClick={onSelect} className="flex bg-dark-gray py-1 md:py-3 pl-3 align-middle">
-            <span className="mr-3">{link.icon}</span>
-            <span className="flex-auto mt-auto text-sm w-40">{link.name}</span>
-            <span className="mr-2">{ link.children && <ExpandMore /> }</span>
+    <li className="text-gray-600">
+        <a type="button" className={`hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle ${(link.route === childOpenLink || link.route === selected) && `border-l-2 border-orange-600`}`}
+            onClick={ () =>
+                !link.children 
+                    ? onSelect(link, false)
+                    : selectOpenChild()
+            }
+        >
+            <span className={`mr-3 ${(link.route === childOpenLink || link.route === selected) && `text-orange-700`}`} fontSize={`inherit`}>{link.icon}</span>
+            <span className={`flex-auto mt-auto text-sm w-40 ${(link.route === childOpenLink || link.route === selected) && `text-orange-700`}`}>{link.name}</span>
+            <span className="mr-2">{
+                (link.children && link.route === childOpenLink)
+                    && <ExpandLess className={`text-orange-700`} /> } {
+                (link.children && link.route !== childOpenLink)
+                    && <ExpandMore /> }</span>
         </a>
+        {
+            (link.children && link.route === childOpenLink) &&
+                link.children.map((data) => (
+                    <MenuList>
+                        <li className="text-gray-600">
+                            <a type="button" onClick={() => onSelect(data, true)} className="hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle">
+                                <span className={`ml-12 flex-auto mt-auto text-sm w-40 ${(data.route === selected) && `text-orange-700`}`}>{data.name}</span>
+                            </a>
+                        </li>
+                    </MenuList>
+                ))
+        }
     </li>
-
-
-    
-    // <div className={`flex flex-row border-l-2 ${selected 
-    //         ? `border-white bg-black`
-    //         : `border-gray-800 hover:bg-gray-700 hover:border-gray-700`}`}
-    //         onClick={onSelect}>
-    //     <div className="self-center p-3 h-auto w-auto">
-    //         <span className="text-base">{link.icon}</span>
-    //     </div>
-    //     <div className="flex-auto py-3 text-gray-900">
-    //         <span className="text-base">{link.name}</span>
-    //     </div>
-    //     <div className="self-center p-2 text-gray-900">
-    //         {
-    //             link.children &&
-    //                 <ExpandMore />
-    //         }
-    //     </div>
-    // </div>
 );
 
 const SideLinks = ({ links }) => {
 
     const [route, setRoute] = useState(null);
     const [menuLinks, setMenuLinks] = useState(links);
+    const [openChild, setOpenChild] = useState(null);
 
     useEffect(() => {
 
@@ -62,12 +71,29 @@ const SideLinks = ({ links }) => {
 
     }, [menuLinks]);
 
-    const handleSelectRoute = (link) => {
+    const handleSelectRoute = (link, isChild = false) => {
+
+        if (!link.children && !isChild)
+            setOpenChild(null);
+        
         if (link.route === route)
             return;
 
         setRoute(link.route);
+
         history.push(link.route);
+    }
+
+    const handleCollapse = (link) => {
+        setRoute(null);
+
+        if (link.route === openChild) {
+            setOpenChild(null);
+
+            return;
+        }
+
+        setOpenChild(link.route);
     }
 
     return (
@@ -89,7 +115,13 @@ const SideLinks = ({ links }) => {
                     <MenuList>
                         {
                             menuLinks.map((link) =>
-                                <MenuListItem link={link} selected={route === link.route} onSelect={() => handleSelectRoute(link)} />
+                                <MenuListItem 
+                                    link={link} 
+                                    selected={route} 
+                                    onSelect={(rl, isChild) => handleSelectRoute(rl, isChild)}
+                                    childOpenLink={openChild}
+                                    selectOpenChild={() => handleCollapse(link)}
+                                />
                             )
                         }
                     </MenuList>

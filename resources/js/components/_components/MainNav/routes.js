@@ -16,12 +16,31 @@ const routes = [
         icon: <People />,
         route: "/employees",
         component: null,
+        children: [
+            {
+                name: "People",
+                route: "/people",
+                component: null,
+            },
+            {
+                name: "Permissions",
+                route: "/permissions",
+                component: null,
+            },
+        ]
     },
     {
         name: "Attendance Records",
         icon: <PlaylistAddCheck />,
-        route: "/records",
+        route: "/attendance-records",
         component: null,
+        children: [
+            {
+                name: "Records",
+                route: "/records",
+                component: null,
+            }
+        ]
     }
 ];
 
