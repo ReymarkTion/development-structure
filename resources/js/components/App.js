@@ -47,15 +47,17 @@ class App extends React.Component {
     }
 }
 
-
 const mapDispatchToProps = {
     logout: authActions.logout,
 };
 
 const mapStateToProps = (state) => {
+    console.log("state ->", state);
     return {
     };
 };
 
-const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
-export { connectedApp as App };
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+// const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+// export { connectedApp as App };

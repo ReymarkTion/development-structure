@@ -5,14 +5,17 @@ export const authActions = {
     login,
 };
 
-const logout = () => dispatch => {
-    console.log("--logout --");
-};
+function logout() {
+    return dispatch => {
+        console.log("--logout --");
+    };
+}
 
-const login = (data) => dispatch => {
-
+function login() {
     // ajax or axios request heres
+    return dispatch => {
 
+    };
 
     const request = (response) => ({ type: authTypes.LOGIN_REQUEST, payload: { response } });
     const success = (response) => ({ type: authTypes.LOGIN_SUCCESS, payload: { response } });

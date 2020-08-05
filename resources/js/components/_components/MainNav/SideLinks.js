@@ -16,7 +16,7 @@ const MenuList = ({ children }) => (
     // </div>
 );
 
-const MenuListItem = ({ 
+const MenuListItem = ({
     link, 
     selected, 
     onSelect,
@@ -25,7 +25,7 @@ const MenuListItem = ({
 }) => (
 
     <li className="text-gray-600">
-        <a type="button" className={`hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle ${(link.route === childOpenLink || link.route === selected) && `border-l-2 border-orange-600`}`}
+        <a type="button" className={`border-l-2 hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle ${(link.route === childOpenLink || link.route === selected) && `border-orange-600`}`}
             onClick={ () =>
                 !link.children 
                     ? onSelect(link, false)
