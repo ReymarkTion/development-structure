@@ -1,8 +1,17 @@
 import React from 'react';
 import {
-    Dashboard, ExpandMore, ExpandLess, People, PlaylistAddCheck
+    Dashboard, ExpandMore, ExpandLess, People, PlaylistAddCheck,
+    AccountTree, PersonAdd, ViewList
 } from '@material-ui/icons';
-import { HomePage } from '../../HomePage/HomePage';
+
+
+import { HomePage } from '../../pages/HomePage';
+import { InventoryPage } from '../../pages/InventoryPage';
+import { ClientsListPage } from '../../pages/ClientsListPage';
+import { PetListPage } from '../../pages/PetListPage';
+import { ScanRfidPage } from '../../pages/ScanRfidPage';
+import { AppointmentsPage } from '../../pages/AppointmentsPage';
+
 
 const routes = [
     {
@@ -12,35 +21,45 @@ const routes = [
         component: HomePage,
     },
     {
-        name: "Employees",
+        name: "Inventory",
+        icon: <AccountTree />,
+        route: "/inventory",
+        component: InventoryPage,
+    },
+    {
+        name: "Clients",
         icon: <People />,
-        route: "/employees",
-        component: null,
+        route: "/clients",
+        component: ClientsListPage,
         children: [
             {
-                name: "People",
-                route: "/people",
-                component: null,
+                name: "Client List",
+                route: "/client-list",
+                component: ClientsListPage,
             },
             {
-                name: "Permissions",
-                route: "/permissions",
-                component: null,
+                name: "Pet List",
+                route: "/pet-list",
+                component: PetListPage,
+            },
+            {
+                name: "Scan ID",
+                route: "/scan-rfid-card",
+                component: ScanRfidPage,
             },
         ]
     },
     {
-        name: "Attendance Records",
-        icon: <PlaylistAddCheck />,
-        route: "/attendance-records",
+        name: "New Client",
+        icon: <PersonAdd />,
+        route: "/add-new-client",
         component: null,
-        children: [
-            {
-                name: "Records",
-                route: "/records",
-                component: null,
-            }
-        ]
+    },
+    {
+        name: "Appointments",
+        icon: <ViewList />,
+        route: "/appointments-history",
+        component: AppointmentsPage,
     }
 ];
 

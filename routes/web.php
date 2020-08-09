@@ -20,3 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('authentication-logout', 'ReactRoutes@logout')
+            ->middleware('auth');
+
+// React Router
+Route::get('/{path1?}/{path2?}/{path3?}', 'ReactRoutes@reactAppRoute');

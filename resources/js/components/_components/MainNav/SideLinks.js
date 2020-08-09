@@ -3,10 +3,18 @@ import {
     Dashboard, ExpandMore, ExpandLess, People
 } from '@material-ui/icons';
 import {
-    ListItemText, ListItem, List
+    ListItemText, ListItem, List, Fade, Collapse
 } from '@material-ui/core';
 import { history } from '../../_helpers';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+        zIndex: theme.zIndex.drawer - 1,
+        color: '#1b334c',
+        backgroundColor: 'rgba(251, 253, 255, 0.7)',
+    },
+}));
 
 const MenuList = ({ children }) => (
     // <div className="flex flex-col">
@@ -21,41 +29,48 @@ const MenuListItem = ({
     selected, 
     onSelect,
     childOpenLink,
-    selectOpenChild
+    selectOpenChild,
+    keyValue
 }) => (
-
+    
     <li className="text-gray-600">
-        <a type="button" className={`border-l-2 hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle ${(link.route === childOpenLink || link.route === selected) && `border-orange-600`}`}
+        <a type="button" className={`border-l-2 hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle 
+            ${(link.route === childOpenLink || link.route === selected) && `border-green-900 bg-gray-200`}`}
             onClick={ () =>
                 !link.children 
                     ? onSelect(link, false)
                     : selectOpenChild()
             }
         >
-            <span className={`mr-3 ${(link.route === childOpenLink || link.route === selected) && `text-orange-700`}`} fontSize={`inherit`}>{link.icon}</span>
-            <span className={`flex-auto mt-auto text-sm w-40 ${(link.route === childOpenLink || link.route === selected) && `text-orange-700`}`}>{link.name}</span>
+            <span className={`mr-3 ${(link.route === childOpenLink || link.route === selected) && `text-green-900`}`} fontSize={`inherit`}>{link.icon}</span>
+            <span className={`flex-auto mt-auto text-sm w-40 ${(link.route === childOpenLink || link.route === selected) && `text-green-900`}`}>{link.name}</span>
             <span className="mr-2">{
                 (link.children && link.route === childOpenLink)
-                    && <ExpandLess className={`text-orange-700`} /> } {
+                    && <ExpandLess className={`text-green-900`} /> } {
                 (link.children && link.route !== childOpenLink)
                     && <ExpandMore /> }</span>
         </a>
-        {
-            (link.children && link.route === childOpenLink) &&
-                link.children.map((data) => (
-                    <MenuList>
-                        <li className="text-gray-600">
-                            <a type="button" onClick={() => onSelect(data, true)} className="hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle">
-                                <span className={`ml-12 flex-auto mt-auto text-sm w-40 ${(data.route === selected) && `text-orange-700`}`}>{data.name}</span>
-                            </a>
-                        </li>
-                    </MenuList>
-                ))
-        }
+        <Collapse in={link.children && link.route === childOpenLink} timeout="auto" unmountOnExit>
+            <div>
+                {
+                    link.children?.map((data, key2) => (
+                        <MenuList>
+                            <li className="text-gray-600" key={keyValue.toString()+key2.toString()}>
+                                <a type="button" onClick={() => onSelect(data, true)} className="hover:bg-gray-200 flex bg-dark-gray py-2 md:py-3 pl-3 align-middle">
+                                    <span className={`ml-12 flex-auto mt-auto text-sm w-40 ${(data.route === selected) && `text-green-900`}`}>{data.name}</span>
+                                </a>
+                            </li>
+                        </MenuList>
+                    ))
+                }
+            </div>
+        </Collapse>
     </li>
 );
 
 const SideLinks = ({ links }) => {
+
+    const classes = useStyles();
 
     const [route, setRoute] = useState(null);
     const [menuLinks, setMenuLinks] = useState(links);
@@ -80,6 +95,8 @@ const SideLinks = ({ links }) => {
             return;
 
         setRoute(link.route);
+
+        console.log("-- push route --");
 
         history.push(link.route);
     }
@@ -114,13 +131,14 @@ const SideLinks = ({ links }) => {
 
                     <MenuList>
                         {
-                            menuLinks.map((link) =>
+                            menuLinks.map((link, key) =>
                                 <MenuListItem 
                                     link={link} 
                                     selected={route} 
                                     onSelect={(rl, isChild) => handleSelectRoute(rl, isChild)}
                                     childOpenLink={openChild}
                                     selectOpenChild={() => handleCollapse(link)}
+                                    keyValue={key}
                                 />
                             )
                         }
